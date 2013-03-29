@@ -2,14 +2,34 @@
 
 create_upstart() {
   domain=$1
-  file=$2
-  port=$3
-  conf="/etc/init/${domain}_${file}.conf"
+  project=$2
+  file=$3
+  port=$4
+
+  #####################################
+
+  path="/srv/www/$domain/public/$project/$file.js"
+  path_logs="/srv/logs/$domain"
+  upstart=${domain}_${project}_${file}
+
+  #####################################
+
+  conf="/etc/init/$upstart.conf"
+
+  #####################################
+
+  echo "Create log path $path_logs"
+
+  mkdir -p $path_logs
+
+  #####################################
+
+  echo "Installed app at $path"
 
   cat > $conf << EOF
 #!upstart
 
-description "Node Process - $domain -> $file : $port"
+description "Node Process - $domain -> $path : $port"
 author      "Pieter Michels"
 
 respawn
@@ -20,17 +40,20 @@ stop  on shutdown
 script
   export NODE_ENV="production"
   export PORT="$port"
-  exec /usr/bin/node /srv/www/$domain/current/$file.js >> /var/www/$domain/shared/logs/$file 2>&1
+
+  exec /usr/bin/node $path >> $path_logs/$file.log 2>&1
 end script
 EOF
 
-  echo $conf
+  #####################################
 
   # Restart upstart script
-  stop ${domain}_${file}
-  start ${domain}_${file}
+  stop ${upstart}
+  start ${upstart}
 
-  echo Restarted ${domain}_${file}
+  #####################################
+
+  echo "Restarted $upstart"
 }
 
-create_upstart "$1" "$2" "$3"
+create_upstart "$1" "$2" "$3" "$4"

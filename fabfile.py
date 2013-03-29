@@ -56,4 +56,8 @@ def deploy():
     # Move all files to app root
     run('mv %s/* %s' % (PROJECT_NAME, APP_ROOT))
 
-  run('%s/scripts/create-upstart.sh %s %s %s' % (DOMAIN, APP_FILE, PORT))
+  upstart()
+
+def upstart():
+  run('chmod +x %s/scripts/create-upstart.sh' % APP_ROOT)
+  run('%s/scripts/create-upstart.sh %s %s %s %s' % (APP_ROOT, DOMAIN, PROJECT_NAME, APP_FILE, PORT))

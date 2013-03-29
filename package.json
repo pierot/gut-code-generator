@@ -1,0 +1,14 @@
+{
+  "name": "code-generator",
+  "domain": "gut.noort.be/code-generator",
+  "start": "server.js",
+  "scripts": {
+    "start": "server.js"
+  },
+  "version": "0.0.1",
+  "dependencies": {
+    "async": "0.1.x",
+    "request": "2.1.x",
+    "underscore": "1.4.x"
+  }
+}
