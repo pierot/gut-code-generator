@@ -56,7 +56,12 @@ def deploy():
     # Move all files to app root
     run('mv %s/* %s' % (PROJECT_NAME, APP_ROOT))
 
+  npm_install()
   upstart()
+
+def npm_install():
+  with cd(APP_ROOT):
+    run('npm install')
 
 def upstart():
   run('chmod +x %s/scripts/create-upstart.sh' % APP_ROOT)
