@@ -1,3 +1,6 @@
+# DEPLOY 
+# $ fab deploy -H 'host:port' -u username
+
 from fabric.api import *
 from fabric.contrib.files import exists, contains, append
 from fabric.colors import cyan, blue
@@ -5,10 +8,6 @@ from datetime import datetime
 
 ###############################################################################
 # ALTER THESE 
-env.hosts = ['noort.be']
-env.user  = 'root'
-env.port = 33
-
 DOMAIN = 'gut.noort.be'
 PROJECT_NAME = 'code-generator'
 PORT = 3001
